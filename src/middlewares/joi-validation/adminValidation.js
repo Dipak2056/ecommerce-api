@@ -11,7 +11,7 @@ export const newAdminValidation = (req, res, next) => {
     password: Joi.string().required(),
   });
   const { value, error } = schema.validate(req.body);
-  console.log(error.message);
+  console.log(error?.message);
 
   if (error) {
     return res.json({
@@ -19,6 +19,5 @@ export const newAdminValidation = (req, res, next) => {
       message: error.message,
     });
   }
-  res.json({});
-  //  next();
+  next();
 };
