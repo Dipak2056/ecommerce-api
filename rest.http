@@ -1,0 +1,2 @@
+### root domain test
+GET http://localhost:8000/
