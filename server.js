@@ -18,6 +18,11 @@ app.use(morgan("dev")); //for logging the api calls
 dbConnect();
 
 //routers
+//admin router
+import adminRouter from "./src/routers/adminRouter.js";
+app.use("/api/v1/admin", adminRouter);
+
+//if nothing got hit
 app.get("/", (req, res) => {
   res.json({
     message: "you have reached the admin api",

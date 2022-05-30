@@ -1,2 +1,13 @@
 ### root domain test
 GET http://localhost:8000/
+
+###### Admin API ###
+## get admin api
+GET http://localhost:8000/api/v1/admin/
+
+### get admin api
+POST http://localhost:8000/api/v1/admin/
+
+### get admin api
+PATCH   http://localhost:8000/api/v1/admin/
+
