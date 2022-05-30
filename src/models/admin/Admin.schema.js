@@ -30,6 +30,10 @@ const AdminSchema = new mongoose.Schema(
       maxlength: [50, "Email must have less than 50 characters."],
       index: 1,
     },
+    emailValidationCode: {
+      type: String,
+      default: "",
+    },
     phone: {
       type: String,
       required: true,

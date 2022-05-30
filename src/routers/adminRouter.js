@@ -2,6 +2,8 @@ import express from "express";
 import { encryptPassword } from "../../helpers/bcrypthelper.js";
 import { newAdminValidation } from "../middlewares/joi-validation/adminValidation.js";
 import { insertAdmin } from "../models/admin/Admin.models.js";
+import { v4 as uuidv4 } from "uuid";
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -15,6 +17,9 @@ router.post("/", newAdminValidation, async (req, res, next) => {
   try {
     const hashPassword = encryptPassword(req.body.password);
     req.body.password = hashPassword;
+    //create uniq email validation code
+    req.body.emailValidationCode = uuidv4();
+
     const result = await insertAdmin(req.body);
     console.log(result);
 
