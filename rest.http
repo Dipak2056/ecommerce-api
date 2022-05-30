@@ -5,9 +5,19 @@ GET http://localhost:8000/
 ## get admin api
 GET http://localhost:8000/api/v1/admin/
 
-### get admin api
+### post admin api
 POST http://localhost:8000/api/v1/admin/
+Content-Type: application/json
 
-### get admin api
+{
+    "fName":"admin",
+    "lName":"admin",
+    "email":"admin",
+    "phone":"12345",
+    "address":"admin",
+    "password":"admin"
+}
+
+### patch admin api
 PATCH   http://localhost:8000/api/v1/admin/
 
