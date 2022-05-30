@@ -2,7 +2,10 @@ import mongoose, { mongo } from "mongoose";
 
 const AdminSchema = new mongoose.Schema(
   {
-    // fName, lName, dob, email, phone, pass, address
+    status: {
+      type: String,
+      default: "inactive",
+    },
     fName: {
       type: String,
       required: true,
