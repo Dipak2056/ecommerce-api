@@ -4,16 +4,18 @@ const app = express();
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
+import { dbConnect } from "./src/config/dbConfig.js";
 
 const PORT = process.env.PORT || 8000;
 
 //use middle wares
 app.use(express.json()); //parse req.body
 app.use(cors()); //browser to access cors
-app.unlock(helmet()); //for the security purpose
+app.use(helmet()); //for the security purpose
 app.use(morgan("dev")); //for logging the api calls
 
 //mongo db connection
+dbConnect();
 
 //routers
 app.get("/", (req, res) => {
