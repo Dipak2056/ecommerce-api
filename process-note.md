@@ -12,10 +12,10 @@ server side validating
 
 - once client receive the email they will follow the link that should redirect the to our front end page where we get the uniq key part of the url and calll server to verify the code
   inserver:
-  receive the uniq email validating code
-  check if the cide is valid and exist in database
-  if not
-  respond s invalid request message
-  if exist
-  update user status from inactive ti active in the database
-  send email confirmation to the user and get that
+  - receive the uniq email validating code
+  - check if the cide is valid and exist in database
+  - if not
+    -- respond s invalid request message
+  - if exist
+    -- update user status from inactive to active in the database
+    -- send email confirmation to the user and get that
