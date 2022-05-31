@@ -5,18 +5,30 @@ GET http://localhost:8000/
 ## get admin api
 GET http://localhost:8000/api/v1/admin/
 
+
 ### post admin api
-POST http://localhost:8000/api/v1/admin/
+POST http://localhost:8000/api/v1/admin
 Content-Type: application/json
 
 {
-    "fName":"admin",
-    "lName":"admin",
-    "email":"admin@jhkj.bb",
-    "phone":"1234567890",
-    "address":"admin",
-    "password":"admin",
-    "dob":"2020-10-08"
+ "fName":"Dipak",
+ "lName":"Paudel",
+ "dob":"2020-08-01",
+ "email":"paudelsantosh508@gmail.com",
+ "phone":"0452450087",
+ "password":"Dipak1234",
+ "address":"3/25Cecilstreet"
+
+}
+
+
+### post admin api
+POST http://localhost:8000/api/v1/admin/email-verification
+Content-Type: application/json
+
+{
+  "email" : "paudelsantosh508@gmail.com",
+  "emailValidationCode" : "7468e0ae-a196-4f90-9ede-61ae9129ffbd"
 }
 
 ### patch admin api
