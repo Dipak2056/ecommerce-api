@@ -2,6 +2,7 @@ import express from "express";
 import { encryptPassword } from "../../helpers/bcrypthelper.js";
 import {
   emailVerificationValidation,
+  loginValidation,
   newAdminValidation,
 } from "../middlewares/joi-validation/adminValidation.js";
 import { insertAdmin, updateAdmin } from "../models/admin/Admin.models.js";
@@ -16,7 +17,7 @@ router.get("/", (req, res) => {
     message: "GET method hit to admin router",
   });
 });
-
+//new Admin registration
 router.post("/", newAdminValidation, async (req, res, next) => {
   try {
     const hashPassword = encryptPassword(req.body.password);
@@ -74,10 +75,19 @@ router.post(
   }
 );
 
-router.patch("/", (req, res) => {
+//login admin user with email and password
+//this feature is not yet completed
+router.post("/login", loginValidation, (req, res) => {
+  //check for the authentication.
+  console.log(req.body);
+  //query get user by email
+  //if user exist compare password
+  //if match, process for creating jwt and etc for future
+  //for now send login success message with user data
   res.json({
-    status: "error",
-    message: "Error creating new user.",
+    status: "success",
+    message: "login feature not implemented yet",
   });
 });
+
 export default router;

@@ -31,6 +31,15 @@ Content-Type: application/json
   "emailValidationCode" : "fac5f0c5-a67f-414f-88a6-0f9d72267d33"
 }
 
+### login admin api
+POST http://localhost:8000/api/v1/admin/login
+Content-Type: application/json
+
+{
+  "email" : "admin@jhkj.bb",
+  "password":"helloworld"
+}
+
 ### patch admin api
 PATCH   http://localhost:8000/api/v1/admin/
 
