@@ -1,4 +1,5 @@
 import Joi from "joi";
+
 const fName = Joi.string().alphanum().required().min(3).max(20);
 const lName = Joi.string().alphanum().required().min(3).max(20);
 const email = Joi.string().email({ minDomainSegments: 2 }).required();

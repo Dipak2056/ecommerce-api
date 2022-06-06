@@ -36,8 +36,8 @@ POST http://localhost:8000/api/v1/admin/login
 Content-Type: application/json
 
 {
-  "email" : "admin@jhkj.bb",
-  "password":"helloworld"
+  "email" : "paudelsantosh508@gmail.com",
+  "password":"Dipak1234"
 }
 
 ### patch admin api

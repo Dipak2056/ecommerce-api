@@ -1,11 +1,15 @@
 import express from "express";
-import { encryptPassword } from "../../helpers/bcrypthelper.js";
+import { encryptPassword, verifyPassword } from "../../helpers/bcrypthelper.js";
 import {
   emailVerificationValidation,
   loginValidation,
   newAdminValidation,
 } from "../middlewares/joi-validation/adminValidation.js";
-import { insertAdmin, updateAdmin } from "../models/admin/Admin.models.js";
+import {
+  getAdmin,
+  insertAdmin,
+  updateAdmin,
+} from "../models/admin/Admin.models.js";
 import { v4 as uuidv4 } from "uuid";
 import { sendMail } from "../../helpers/emailHelper.js";
 
@@ -77,17 +81,40 @@ router.post(
 
 //login admin user with email and password
 //this feature is not yet completed
-router.post("/login", loginValidation, (req, res) => {
-  //check for the authentication.
-  console.log(req.body);
-  //query get user by email
-  //if user exist compare password
-  //if match, process for creating jwt and etc for future
-  //for now send login success message with user data
-  res.json({
-    status: "success",
-    message: "login feature not implemented yet",
-  });
+router.post("/login", loginValidation, async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    //check for the authentication.
+    console.log(req.body);
+    //query get user by email
+    const user = await getAdmin({ email });
+    if (user?._id) {
+      console.log(user);
+      //if user exist compare password
+      const isMatched = verifyPassword(password, user.password);
+      console.log(isMatched);
+      user.password = undefined;
+
+      //for now
+      res.json({
+        status: "success",
+        message: "User logged in successfully",
+        user,
+      });
+      //if match, process for creating jwt and etc for future
+      //for now send login success message with user data
+      return;
+    }
+
+    res.status(401).json({
+      status: "success",
+      message: "Invalid login credentials",
+    });
+  } catch (error) {
+    console.log(error);
+    error.status = 500;
+    next(error);
+  }
 });
 
 export default router;
