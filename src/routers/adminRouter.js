@@ -47,7 +47,6 @@ router.post("/", newAdminValidation, async (req, res, next) => {
       error.message = "Email already exists, please use another Email";
       error.status = 200;
     }
-    error.status = 500;
     next(error);
   }
 });
@@ -60,15 +59,18 @@ router.post(
     const filter = req.body;
     const update = { status: "active" };
     const result = await updateAdmin(filter, update);
-    result?._id
-      ? res.json({
-          status: "success",
-          message: "your email successfully verified, You may Login now.",
-        })
-      : res.json({
-          status: "error",
-          message: "INvalid or expired verification link.",
-        });
+    if (result?._id) {
+      res.json({
+        status: "success",
+        message: "your email successfully verified, You may Login now.",
+      });
+      await updateAdmin(filter, { emailValidationCode: "" });
+      return;
+    }
+    res.json({
+      status: "Error",
+      message: "Invalid validation or Validation code expired.",
+    });
   }
 );
 

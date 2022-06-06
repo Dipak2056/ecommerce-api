@@ -28,4 +28,6 @@ export const sendMail = async (emailData) => {
 
     `,
   });
+  console.log("message sent to ", info.messageId);
+  console.log(nodemailer.getTestMessageUrl(info));
 };
