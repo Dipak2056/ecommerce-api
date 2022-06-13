@@ -1,7 +1,9 @@
 import express from "express";
-const router = express.Router;
+import { newCategoryValidation } from "../middlewares/joi-validation/productCategoryValidation.js";
+
+const router = express.Router();
 //add
-router.post("/", (req, res, next) => {
+router.post("/", newCategoryValidation, (req, res, next) => {
   try {
     console.log(req.body);
   } catch (error) {
