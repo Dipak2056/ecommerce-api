@@ -89,28 +89,30 @@ router.post("/login", loginValidation, async (req, res, next) => {
     //query get user by email
     const user = await getAdmin({ email });
 
-    if (user.status === "inactive") return;
-    res.json({
-      status: "error",
-      message:
-        "your account is not active ye, please check your email and follow the instruction to activate your account.",
-    });
+    if (user.status === "inactive")
+      return res.json({
+        status: "error",
+        message:
+          "your account is not active ye, please check your email and follow the instruction to activate your account.",
+      });
     if (user?._id) {
       console.log(user);
       //if user exist compare password
       const isMatched = verifyPassword(password, user.password);
-      console.log(isMatched);
-      user.password = undefined;
+      if (isMatched) {
+        user.password = undefined;
+        res.json({
+          status: "success",
+          message: "User logged in successfully",
+          user,
+        });
+        return;
+      }
 
       //for now
-      res.json({
-        status: "success",
-        message: "User logged in successfully",
-        user,
-      });
+
       //if match, process for creating jwt and etc for future
       //for now send login success message with user data
-      return;
     }
 
     res.status(401).json({
