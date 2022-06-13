@@ -27,8 +27,8 @@ POST http://localhost:8000/api/v1/admin/email-verification
 Content-Type: application/json
 
 {
-  "email" : "admin@jhkj.bb",
-  "emailValidationCode" : "fac5f0c5-a67f-414f-88a6-0f9d72267d33"
+  "email" : "paudelsantosh508@gmail.com",
+  "emailValidationCode" : "1786d920-329b-4a99-8804-5d4d2436ba53"
 }
 
 ### login admin api
