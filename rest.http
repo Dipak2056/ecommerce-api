@@ -43,3 +43,15 @@ Content-Type: application/json
 ### patch admin api
 PATCH   http://localhost:8000/api/v1/admin/
 
+
+###==========category section =======#
+
+### post new category
+POST http://localhost:8000/api/v1/category
+
+Content-Type: application/json
+
+{
+  "parentCat":"",
+  "catName":""
+}

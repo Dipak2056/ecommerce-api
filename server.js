@@ -20,7 +20,9 @@ dbConnect();
 //routers
 //admin router
 import adminRouter from "./src/routers/adminRouter.js";
+import categoryRouter from "./src/routers/categoryRouter.js";
 app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/category", categoryRouter);
 
 //if nothing got hit
 app.get("/", (req, res) => {
