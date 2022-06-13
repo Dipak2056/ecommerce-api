@@ -116,7 +116,7 @@ router.post("/login", loginValidation, async (req, res, next) => {
     }
 
     res.status(401).json({
-      status: "success",
+      status: "error",
       message: "Invalid login credentials",
     });
   } catch (error) {
