@@ -93,7 +93,7 @@ router.post("/login", loginValidation, async (req, res, next) => {
       return res.json({
         status: "error",
         message:
-          "your account is not active ye, please check your email and follow the instruction to activate your account.",
+          "your account is not active yet, please check your email and follow the instruction to activate your account.",
       });
     if (user?._id) {
       console.log(user);
