@@ -5,6 +5,7 @@ import {
   getAllCategories,
   insertCategory,
   updateCategoryById,
+  getCategories,
 } from "../models/category/Category.model.js";
 
 import slugify from "slugify";
@@ -63,6 +64,17 @@ router.patch("/", async (req, res, next) => {
 router.delete("/", async (req, res, next) => {
   try {
     const { _id } = req.body;
+    const filter = { parentCatId: _id };
+
+    const childCats = getCategories(filter);
+    if (childCats.length) {
+      return res.json({
+        status: "error",
+        message:
+          "There are more thaan one child component dependent on this parent category. so reallocate those child category to new parent category than proceed.",
+      });
+    }
+    return;
 
     const result = await deleteCatById(_id);
     result?._id
