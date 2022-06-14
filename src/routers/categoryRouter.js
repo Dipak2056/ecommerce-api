@@ -1,6 +1,7 @@
 import express from "express";
 import { newCategoryValidation } from "../middlewares/joi-validation/productCategoryValidation.js";
 import {
+  deleteCatById,
   getAllCategories,
   insertCategory,
   updateCategoryById,
@@ -54,6 +55,25 @@ router.patch("/", async (req, res, next) => {
     result?._id
       ? res.json({ status: "success", message: "categories result", result })
       : res.json({ status: "error", message: "error updating categories" });
+  } catch (error) {
+    next(error);
+  }
+});
+//delete
+router.delete("/", async (req, res, next) => {
+  try {
+    const { _id } = req.body;
+
+    const result = await deleteCatById(_id);
+    result?._id
+      ? res.json({
+          status: "success",
+          message: "The Category has been deleted",
+        })
+      : res.json({
+          status: "error",
+          message: "The Category has not  been deleted",
+        });
   } catch (error) {
     next(error);
   }
