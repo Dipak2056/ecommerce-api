@@ -6,8 +6,11 @@ export const insertCategory = (obj) => {
 export const getAllCategory = (filter) => {
   return CategorySchema.findOne(filter);
 };
-export const getCategories = (filter) => {
-  return CategorySchema.find(filter);
+// export const getCategories = (filter) => {
+//   return CategorySchema.find(filter);
+// };
+export const getAllCategories = () => {
+  return CategorySchema.find();
 };
 
 export const deleteCatById = (_id) => {
