@@ -1,4 +1,3 @@
-import { number } from "joi";
 import mongoose from "mongoose";
 const ProductSchema = new mongoose.Schema(
   {
@@ -13,18 +12,20 @@ const ProductSchema = new mongoose.Schema(
       maxlength: 100,
     },
 
-    SKU: {
+    sku: {
       type: String,
       unique: true,
       index: 1,
       required: true,
       maxlength: 20,
+      trim: true,
     },
     slug: {
       type: String,
       unique: true,
       index: 1,
       required: true,
+      trim: true,
     },
     description: {
       type: String,
@@ -41,7 +42,7 @@ const ProductSchema = new mongoose.Schema(
     image: [{ type: String }],
     thumbnail: {
       type: String,
-      required: true,
+      //   required: true,
       default: "",
     },
     price: {

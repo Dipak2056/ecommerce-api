@@ -1,6 +1,6 @@
 import ProductSchema from "./Product.schema.js";
 
-const insertProduct = (obj) => {
+export const insertProduct = (obj) => {
   return ProductSchema(obj).save();
 };
 const getProduct = (filter) => {
