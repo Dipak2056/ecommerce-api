@@ -60,6 +60,26 @@ router.patch("/", async (req, res, next) => {
     next(error);
   }
 });
+//update category
+router.put("/", newCategoryValidation, async (req, res, next) => {
+  try {
+    console.log(req.body);
+    const { _id, ...rest } = req.body;
+    const result = await updateCategoryById(_id, rest);
+    console.log(result);
+    result?._id
+      ? res.json({
+          status: "success",
+          message: " category has been updated",
+        })
+      : res.json({
+          status: "error",
+          message: "Unable to update category, try again alater",
+        });
+  } catch (error) {
+    next(error);
+  }
+});
 //delete
 router.delete("/", async (req, res, next) => {
   try {
