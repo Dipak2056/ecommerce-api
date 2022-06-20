@@ -74,11 +74,14 @@ Content-Type: application/json
 
 {
 
-    "name": "macbook pro",
-    "sku": "macbook-14",
+
+    "name": "macbook pro 14",
+    "sku": "macbook-pro-14",
     "description": "lorem aasf asdf  adf a sdf asd f",
     "qty":2 ,
      "price": 3000,
     "salesPrice": 0,
     "salesDate": null
 }
+###get product
+GET http://localhost:8000/api/v1/products

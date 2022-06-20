@@ -1,9 +1,24 @@
 import express from "express";
 import slugify from "slugify";
 import { newProductValidation } from "../middlewares/joi-validation/productCategoryValidation.js";
-import { insertProduct } from "../models/product/Product.model.js";
+import {
+  getMultipleProducts,
+  insertProduct,
+} from "../models/product/Product.model.js";
 const router = express.Router();
 
+router.get("/", async (req, res, next) => {
+  try {
+    const products = await getMultipleProducts();
+    res.json({
+      status: "success",
+      message: "Product lists",
+      products,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 router.post("/", newProductValidation, async (req, res, next) => {
   try {
     console.log(req.body);
