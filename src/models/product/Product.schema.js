@@ -1,3 +1,4 @@
+import { number } from "joi";
 import mongoose from "mongoose";
 const ProductSchema = new mongoose.Schema(
   {
@@ -11,17 +12,19 @@ const ProductSchema = new mongoose.Schema(
       requierd: true,
       maxlength: 100,
     },
-    slug: {
-      type: String,
-      unique: true,
-      required: true,
-    },
+
     SKU: {
       type: String,
       unique: true,
       index: 1,
       required: true,
       maxlength: 20,
+    },
+    slug: {
+      type: String,
+      unique: true,
+      index: 1,
+      required: true,
     },
     description: {
       type: String,
@@ -31,13 +34,15 @@ const ProductSchema = new mongoose.Schema(
       maxlength: 500,
     },
     qty: {
-      type: String,
+      type: Number,
+      required: true,
+      default: 0,
     },
-    image: [{ type: String, required: true }],
+    image: [{ type: String }],
     thumbnail: {
       type: String,
       required: true,
-      default: 0,
+      default: "",
     },
     price: {
       type: Number,
