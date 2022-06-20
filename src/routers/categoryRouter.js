@@ -86,12 +86,12 @@ router.delete("/", async (req, res, next) => {
     const { _id } = req.body;
     const filter = { parentCatId: _id };
 
-    const childCats = getCategories(filter);
+    const childCats = await getCategories(filter);
     if (childCats.length) {
       return res.json({
         status: "error",
         message:
-          "There are more thaan one child component dependent on this parent category. so reallocate those child category to new parent category than proceed.",
+          "There are more than one child component dependent on this parent category. so reallocate those child category to new parent category than proceed.",
       });
     }
 
