@@ -94,7 +94,6 @@ router.delete("/", async (req, res, next) => {
           "There are more thaan one child component dependent on this parent category. so reallocate those child category to new parent category than proceed.",
       });
     }
-    return;
 
     const result = await deleteCatById(_id);
     result?._id
