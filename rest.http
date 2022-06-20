@@ -73,5 +73,12 @@ POST http://localhost:8000/api/v1/products
 Content-Type: application/json
 
 {
-  "name":"samsung moobile"
+
+    "name": "macbook pro",
+    "sku": "macbook-14",
+    "description": "lorem aasf asdf  adf a sdf asd f",
+    "qty":2 ,
+     "price": 3000,
+    "salesPrice": 0,
+    "salesDate": null
 }
