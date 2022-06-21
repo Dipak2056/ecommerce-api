@@ -15,3 +15,6 @@ export const updateProduct = (filter, updateObj) => {
 export const deleteProduct = (filter) => {
   return ProductSchema.findOneAndDelete(filter);
 };
+export const deleteMultipleProducts = (ids) => {
+  return ProductSchema.deleteMany({ _id: { $in: ids } });
+};
