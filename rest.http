@@ -114,7 +114,7 @@ POST http://localhost:8000/api/v1/payment-method
 Content-Type: application/json
 
 {
-  "name":"master",
+  "name":"cash",
   "status":"active",
   "description":"use this payment method to post."
 }
@@ -131,4 +131,4 @@ Content-Type: application/json
 }
 
 ### delete payment method
-DELETE  http://localhost:8000/api/v1/payment-method/asdfa;asdf;
+DELETE  http://localhost:8000/api/v1/payment-method/62ba31155e0375fcd87aa67f

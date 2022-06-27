@@ -1,6 +1,7 @@
 import express from "express";
 import { newPaymentMethodValidation } from "../middlewares/joi-validation/paymentValidation.js";
 import {
+  deletePaymentMethodById,
   getPaymentMethods,
   insertPaymentMethod,
   updatePaymentMethodById,
@@ -67,11 +68,18 @@ router.put("/", newPaymentMethodValidation, async (req, res, next) => {
 router.delete("/:_id", async (req, res, next) => {
   try {
     const { _id } = req.params;
+    const result = await deletePaymentMethodById(_id);
     console.log(_id);
-    res.json({
-      status: "success",
-      message: "The payment method has been deleted",
-    });
+    result?._id
+      ? res.json({
+          status: "success",
+          message: "The payment method has been deleted",
+        })
+      : res.json({
+          status: "error",
+          message:
+            "The payment method has already been  deleted, please choose another payment method to delete.",
+        });
   } catch (error) {
     next(error);
   }
