@@ -131,4 +131,4 @@ Content-Type: application/json
 }
 
 ### delete payment method
-DELETE  http://localhost:8000/api/v1/payment-method/62ba31155e0375fcd87aa67f
+DELETE  http://localhost:8000/api/v1/payment-method/62ba38f30eb6f9b14568dbb2

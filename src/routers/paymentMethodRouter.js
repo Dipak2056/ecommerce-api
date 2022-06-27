@@ -69,17 +69,16 @@ router.delete("/:_id", async (req, res, next) => {
   try {
     const { _id } = req.params;
     const result = await deletePaymentMethodById(_id);
-    console.log(_id);
-    result?._id
-      ? res.json({
-          status: "success",
-          message: "The payment method has been deleted",
-        })
-      : res.json({
-          status: "error",
-          message:
-            "The payment method has already been  deleted, please choose another payment method to delete.",
-        });
+   if(result?._id){
+    return res.json({
+        status:'success',
+        message:'Deleted payment method.'
+    })
+   }
+   res.json({
+    status:'error',
+    message:'Unable to delete.'
+   })
   } catch (error) {
     next(error);
   }
