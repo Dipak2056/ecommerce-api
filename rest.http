@@ -84,4 +84,24 @@ Content-Type: application/json
     "salesDate": null
 }
 ###get product
-GET http://localhost:8000/api/v1/products
+GET http://localhost:8000/api/v1/products 
+
+
+##update product
+PUT http://localhost:8000/api/v1/products
+Content-Type: application/json
+
+{
+  "catId" :"62b056fd1d3c44dc152ab251",
+  "name": "macbook pro 14",
+    "sku": "macbook-pro-14",
+    "description": "lorem aasf asdf  adf a sdf asd f",
+    "qty":2 ,
+     "price": 3000,
+    "salesPrice": 0,
+    "salesEndDate": null,
+    "salesStartDate": null,
+    "status" : "active",
+    "_id":"62b8e7235ab56053733f74b9"
+
+}

@@ -9,8 +9,11 @@ export const getProduct = (filter) => {
 export const getMultipleProducts = (filter) => {
   return ProductSchema.find(filter);
 };
+export const updateProductById = (_id, updateObj) => {
+  return ProductSchema.findByIdAndUpdate(_id, updateObj);
+};
 export const updateProduct = (filter, updateObj) => {
-  return ProductSchema.findByIdAndUpdate(filter, updateObj);
+  return ProductSchema.findOneAndUpdate(filter, updateObj);
 };
 export const deleteProduct = (filter) => {
   return ProductSchema.findOneAndDelete(filter);
