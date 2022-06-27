@@ -22,9 +22,11 @@ dbConnect();
 import adminRouter from "./src/routers/adminRouter.js";
 import categoryRouter from "./src/routers/categoryRouter.js";
 import productRouter from "./src/routers/productRouter.js";
+import paymentMethodRouter from "./src/routers/paymentMethodRouter.js";
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/payment-method", paymentMethodRouter);
 
 //if nothing got hit
 app.get("/", (req, res) => {
