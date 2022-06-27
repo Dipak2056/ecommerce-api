@@ -105,3 +105,30 @@ Content-Type: application/json
     "_id":"62b8e7235ab56053733f74b9"
 
 }
+
+#================ payment method api
+### get payment method
+GET http://localhost:8000/api/v1/payment-method
+
+### post payment method
+POST http://localhost:8000/api/v1/payment-method
+Content-Type: application/json
+
+{
+  "name":"Pay by credit card",
+  "status":"active",
+  "description":"use this payment method to post."
+}
+
+### to update the payment method
+PATCH  http://localhost:8000/api/v1/payment-method
+Content-Type: application/json
+
+{
+  "name":"Pay by credit card",
+  "status":"active",
+  "description":"use this payment method to post."
+}
+
+### delete payment method
+DELETE  http://localhost:8000/api/v1/payment-method/asdfa;asdf;

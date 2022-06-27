@@ -1,5 +1,5 @@
 import express from "express";
-import {} from "../models/paymentemethods/PaymentMethod.model";
+import {} from "../models/paymentemethods/PaymentMethod.model.js";
 
 const router = express.Router();
 router.post("/", async (req, res, next) => {
@@ -13,6 +13,18 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
+router.patch("/", async (req, res, next) => {
+  try {
+    console.log(req.body);
+    res.json({
+      status: "success",
+      message: "Payment method-update  got hit successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/", async (req, res, next) => {
   try {
     console.log(req.body);
