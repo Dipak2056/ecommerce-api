@@ -18,8 +18,7 @@ Content-Type: application/json
  "phone":"0452450087",
  "password":"Dipak1234",
  "address":"3/25Cecilstreet"
-
-}
+ }
 
 
 ### post admin api
@@ -115,18 +114,19 @@ POST http://localhost:8000/api/v1/payment-method
 Content-Type: application/json
 
 {
-  "name":"Pay by credit card",
+  "name":"master",
   "status":"active",
   "description":"use this payment method to post."
 }
 
 ### to update the payment method
-PATCH  http://localhost:8000/api/v1/payment-method
+PUT   http://localhost:8000/api/v1/payment-method
 Content-Type: application/json
 
 {
-  "name":"Pay by credit card",
+  "_id":"62ba30ba6092aa9c74f02c23",
   "status":"active",
+  "name":"credit card",
   "description":"use this payment method to post."
 }
 
