@@ -33,6 +33,11 @@ router.post("/", newPaymentMethodValidation, async (req, res, next) => {
         });
     console.log(result);
   } catch (error) {
+    error.status = 500;
+    if (error.message.includes("E11000 duplicate key")) {
+      error.status = 200;
+      error.message = "This payment method already exists.";
+    }
     next(error);
   }
 });
