@@ -174,7 +174,7 @@ router.put("/", updateAdminValidation, async (req, res, next) => {
     next(error);
   }
 });
-//password reset otp request
+//=====================password reset otp request
 router.post("/otp-request", async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -215,7 +215,7 @@ router.post("/otp-request", async (req, res, next) => {
   }
 });
 
-//reset Password
+//======================reset Password
 router.patch("/password", async (req, res, next) => {
   try {
     const { otp, email, password } = req.body;
@@ -252,4 +252,5 @@ router.patch("/password", async (req, res, next) => {
     next(error);
   }
 });
+
 export default router;
