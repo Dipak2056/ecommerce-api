@@ -12,9 +12,16 @@ import {
   updateAdmin,
 } from "../models/admin/Admin.models.js";
 import { v4 as uuidv4 } from "uuid";
-import { OTPNotification, sendMail } from "../../helpers/emailHelper.js";
+import {
+  OTPNotification,
+  profileUpdateNotification,
+  sendMail,
+} from "../../helpers/emailHelper.js";
 import { createOtp } from "../../helpers/randomGeneratorHelper.js";
-import { insertSession } from "../models/session/sessionModel.js";
+import {
+  deleteSession,
+  insertSession,
+} from "../models/session/sessionModel.js";
 
 const router = express.Router();
 
@@ -142,6 +149,10 @@ router.put("/", updateAdminValidation, async (req, res, next) => {
         const { _id, password, ...rest } = req.body;
         const updatedAdmin = await updateAdmin({ _id }, rest);
         if (updatedAdmin?._id) {
+          profileUpdateNotification({
+            fName: updatedAdmin.fName,
+            email: updatedAdmin.email,
+          });
           return res.json({
             status: "success",
             message: "Your profile has been updated successfully",
@@ -204,4 +215,41 @@ router.post("/otp-request", async (req, res, next) => {
   }
 });
 
+//reset Password
+router.patch("/password", async (req, res, next) => {
+  try {
+    const { otp, email, password } = req.body;
+    console.log(req.body);
+    //1. get session info based in the otp, so that we get the use email
+    const session = await deleteSession({ otp, email });
+    console.log(session);
+    if (session?._id) {
+      const update = {
+        password: encryptPassword(password),
+      };
+      const updatedUser = await updateAdmin({ email }, update);
+      if (updatedUser?._id) {
+        //send the email notificaition
+        profileUpdateNotification({
+          fName: updatedUser.fName,
+          email: updatedUser.email,
+        });
+
+        return res.json({
+          status: "success",
+          message: "your password has been updated",
+        });
+      }
+    }
+    res.json({
+      status: "error",
+      message: "password didnot update successfully.",
+    });
+
+    //2. based in the email update update password in the database after encrypting
+  } catch (error) {
+    error.status = 500;
+    next(error);
+  }
+});
 export default router;

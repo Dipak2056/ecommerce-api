@@ -45,7 +45,7 @@ export const profileUpdateNotification = async (userInfo) => {
     subject: "Profile update notification", // Subject line
     text: `hi there youtr profile just have been updated, please contact adminurl}`, // plain text body
     html: `
-    <p>Hi, ${emailData.fName}</p>
+    <p>Hi, ${userInfo.fName}</p>
     <br />
     <br />
     <p>hi there youtr profile just have been updated, please contact adminurl</p>
