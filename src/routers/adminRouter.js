@@ -13,6 +13,8 @@ import {
 } from "../models/admin/Admin.models.js";
 import { v4 as uuidv4 } from "uuid";
 import { sendMail } from "../../helpers/emailHelper.js";
+import { createOtp } from "../../helpers/randomGeneratorHelper.js";
+import { insertSession } from "../models/session/sessionModel.js";
 
 const router = express.Router();
 
@@ -137,7 +139,7 @@ router.put("/", updateAdminValidation, async (req, res, next) => {
     if (user?._id) {
       const isMatched = verifyPassword(password, user.password);
       if (isMatched) {
-        const { _id, ...rest } = req.body;
+        const { _id, password, ...rest } = req.body;
         const updatedAdmin = await updateAdmin({ _id }, rest);
         if (updatedAdmin?._id) {
           return res.json({
@@ -158,6 +160,42 @@ router.put("/", updateAdminValidation, async (req, res, next) => {
       error.message = "Email already exists, please use another Email";
       error.status = 200;
     }
+    next(error);
+  }
+});
+//password reset otp request
+router.post("/otp-request", async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    if (email) {
+      //check if user exist
+      const user = await getAdmin({ email });
+      if (user?._id) {
+        //create otp and send email
+        const obj = {
+          token: createOtp(),
+          associate: email,
+          type: "updatePassword",
+        };
+        const result = await insertSession(obj);
+        if (result?._id) {
+          console.log(result);
+          res.json({
+            status: "success",
+            message:
+              "If your email exixt in our system, you will send you OTP. Please check your email.",
+          });
+          //send the otp to the admin email
+        }
+        console.log(result);
+      }
+    }
+    res.json({
+      status: "error",
+      message: "invalid request",
+    });
+  } catch (error) {
+    error.status = 500;
     next(error);
   }
 });

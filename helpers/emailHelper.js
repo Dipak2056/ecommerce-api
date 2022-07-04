@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer";
-export const sendMail = async (emailData) => {
-  // create reusable transporter object using the default SMTP transport
+const emailProcessor = async (emaildata) => {
   let transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SMTP,
     port: +process.env.EMAIL_PORT,
@@ -9,8 +8,15 @@ export const sendMail = async (emailData) => {
       pass: process.env.EMAIL_PASSWORD,
     },
   });
+
+  let info = await transporter.sendMail(emaildata);
+  console.log("message sent to ", info.messageId);
+  console.log(nodemailer.getTestMessageUrl(info));
+};
+
+export const sendMail = async (emailData) => {
   // send mail with defined transport object
-  let info = await transporter.sendMail({
+  const mailBody = {
     from: '"Dipak ecommerce " <davon.waelchi72@ethereal.email>', // sender address
     to: "davon.waelchi72@ethereal.email", // list of receivers
     subject: "Please verify your email", // Subject line
@@ -27,7 +33,28 @@ export const sendMail = async (emailData) => {
     Dipak
 
     `,
-  });
-  console.log("message sent to ", info.messageId);
-  console.log(nodemailer.getTestMessageUrl(info));
+  };
+  emailProcessor(mailBody);
+};
+
+export const profileUpdateNotification = async (userInfo) => {
+  // send mail with defined transport object
+  const mailBody = {
+    from: '"Dipak ecommerce " <davon.waelchi72@ethereal.email>', // sender address
+    to: userInfo.email, // list of receivers
+    subject: "Profile update notification", // Subject line
+    text: `hi there youtr profile just have been updated, please contact adminurl}`, // plain text body
+    html: `
+    <p>Hi, ${emailData.fName}</p>
+    <br />
+    <br />
+    <p>hi there youtr profile just have been updated, please contact adminurl</p>
+    <br />
+    <br />
+    kind regards 
+    Dipak
+
+    `,
+  };
+  emailProcessor(mailBody);
 };
