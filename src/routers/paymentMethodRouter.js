@@ -2,15 +2,21 @@ import express from "express";
 import { newPaymentMethodValidation } from "../middlewares/joi-validation/paymentValidation.js";
 import {
   deletePaymentMethodById,
+  getAllPaymentMethod,
+  getAPaymentMethod,
   getPaymentMethods,
   insertPaymentMethod,
   updatePaymentMethodById,
 } from "../models/paymentemethods/PaymentMethod.model.js";
 
 const router = express.Router();
-router.get("/", async (req, res, next) => {
+router.get("/:_id?", async (req, res, next) => {
   try {
-    const result = await getPaymentMethods();
+    const { _id } = req.params;
+
+    const result = _id
+      ? await getAPaymentMethod({ _id })
+      : await getAllPaymentMethod();
     res.json({
       status: "success",
       message: "The payment method has been fetched",
@@ -69,16 +75,16 @@ router.delete("/:_id", async (req, res, next) => {
   try {
     const { _id } = req.params;
     const result = await deletePaymentMethodById(_id);
-   if(result?._id){
-    return res.json({
-        status:'success',
-        message:'Deleted payment method.'
-    })
-   }
-   res.json({
-    status:'error',
-    message:'Unable to delete.'
-   })
+    if (result?._id) {
+      return res.json({
+        status: "success",
+        message: "Deleted payment method.",
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Unable to delete.",
+    });
   } catch (error) {
     next(error);
   }

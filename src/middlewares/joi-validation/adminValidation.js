@@ -9,6 +9,7 @@ import {
   PASSWORD,
   REQUIREDSTR,
   validator,
+  SHORTSTR,
 } from "./constantValidation.js";
 // const fName = Joi.string().alphanum().required().min(3).max(20);
 // const lName = Joi.string().alphanum().required().min(3).max(20);
@@ -21,6 +22,19 @@ import {
 
 export const newAdminValidation = (req, res, next) => {
   const schema = Joi.object({
+    fName: FNAME,
+    lName: LNAME,
+    email: EMAIL,
+    phone: PHONE,
+    dob: DOB,
+    address: ADDRESS,
+    password: PASSWORD,
+  });
+  validator(schema, req, res, next);
+};
+export const updateAdminValidation = (req, res, next) => {
+  const schema = Joi.object({
+    _id: SHORTSTR,
     fName: FNAME,
     lName: LNAME,
     email: EMAIL,

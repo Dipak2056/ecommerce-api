@@ -4,6 +4,7 @@ import {
   emailVerificationValidation,
   loginValidation,
   newAdminValidation,
+  updateAdminValidation,
 } from "../middlewares/joi-validation/adminValidation.js";
 import {
   getAdmin,
@@ -55,6 +56,7 @@ router.post("/", newAdminValidation, async (req, res, next) => {
     next(error);
   }
 });
+
 //email verification router
 router.post(
   "/email-verification",
@@ -122,6 +124,39 @@ router.post("/login", loginValidation, async (req, res, next) => {
   } catch (error) {
     console.log(error);
     error.status = 500;
+    next(error);
+  }
+});
+
+//put method for the update admin profile
+router.put("/", updateAdminValidation, async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await getAdmin({ email });
+
+    if (user?._id) {
+      const isMatched = verifyPassword(password, user.password);
+      if (isMatched) {
+        const { _id, ...rest } = req.body;
+        const updatedAdmin = await updateAdmin({ _id }, rest);
+        if (updatedAdmin?._id) {
+          return res.json({
+            status: "success",
+            message: "Your profile has been updated successfully",
+          });
+        }
+      }
+    } else {
+      res.json({
+        status: "error",
+        message: "Invalid request, Your profile didnot get updated",
+      });
+    }
+  } catch (error) {
+    if (error.message.includes("E11000 duplicate key")) {
+      error.message = "Email already exists, please use another Email";
+      error.status = 200;
+    }
     next(error);
   }
 });
