@@ -12,7 +12,7 @@ import {
   updateAdmin,
 } from "../models/admin/Admin.models.js";
 import { v4 as uuidv4 } from "uuid";
-import { sendMail } from "../../helpers/emailHelper.js";
+import { OTPNotification, sendMail } from "../../helpers/emailHelper.js";
 import { createOtp } from "../../helpers/randomGeneratorHelper.js";
 import { insertSession } from "../models/session/sessionModel.js";
 
@@ -186,6 +186,10 @@ router.post("/otp-request", async (req, res, next) => {
               "If your email exixt in our system, you will send you OTP. Please check your email.",
           });
           //send the otp to the admin email
+          return OTPNotification({
+            token: result.token,
+            email,
+          });
         }
         console.log(result);
       }

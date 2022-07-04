@@ -58,3 +58,24 @@ export const profileUpdateNotification = async (userInfo) => {
   };
   emailProcessor(mailBody);
 };
+export const OTPNotification = async (userInfo) => {
+  // send mail with defined transport object
+  const mailBody = {
+    from: '"Dipak ecommerce " <davon.waelchi72@ethereal.email>', // sender address
+    to: userInfo.email, // list of receivers
+    subject: "Youu have received OTP", // Subject line
+    text: `hi there use this OTP as per your request ${userInfo.token}}`, // plain text body
+    html: `
+    <p>Hi, there</p>
+    <br />
+    <br />
+    <p>hi there user this otp as per your request ${userInfo.token}</p>
+    <br />
+    <br />
+    kind regards 
+    Dipak
+
+    `,
+  };
+  emailProcessor(mailBody);
+};
