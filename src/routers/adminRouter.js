@@ -143,6 +143,7 @@ router.put("/", updateAdminValidation, async (req, res, next) => {
           return res.json({
             status: "success",
             message: "Your profile has been updated successfully",
+            user: updatedAdmin,
           });
         }
       }
