@@ -38,9 +38,6 @@ export const newProductValidation = (req, res, next) => {
       salesStartDate: DATE.allow(null),
       salesEndDate: DATE.allow(null),
       catId: SHORTSTR.required(),
-      images: LONGSTR.allow(null, ""),
-      thumbnail: SHORTSTR.allow(null, ""),
-      imgToDelete: LONGSTR.allow(null, ""),
     });
     validator(schema, req, res, next);
   } catch (error) {
@@ -49,6 +46,10 @@ export const newProductValidation = (req, res, next) => {
 };
 export const updateProductValidation = (req, res, next) => {
   try {
+    req.body.salesEndDate =
+      req.body.salesEndDate === "null" ? null : req.body.salesEndDate;
+    req.body.salesStartDate =
+      req.body.salesStartDate === "null" ? null : req.body.salesStartDate;
     const schema = Joi.object({
       _id: SHORTSTR.required(),
       status: SHORTSTR.required(),
@@ -60,6 +61,9 @@ export const updateProductValidation = (req, res, next) => {
       salesStartDate: DATE.allow(null),
       salesEndDate: DATE.allow(null),
       catId: SHORTSTR.required(),
+      images: LONGSTR.allow(null, ""),
+      thumbnail: SHORTSTR.allow(null, ""),
+      imgToDelete: LONGSTR.allow(null, ""),
     });
     validator(schema, req, res, next);
   } catch (error) {

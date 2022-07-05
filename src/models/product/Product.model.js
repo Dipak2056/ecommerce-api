@@ -10,7 +10,7 @@ export const getMultipleProducts = (filter) => {
   return ProductSchema.find(filter);
 };
 export const updateProductById = (_id, updateObj) => {
-  return ProductSchema.findByIdAndUpdate(_id, updateObj);
+  return ProductSchema.findByIdAndUpdate(_id, updateObj, { new: true });
 };
 export const updateProduct = (filter, updateObj) => {
   return ProductSchema.findOneAndUpdate(filter, updateObj);

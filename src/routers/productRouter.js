@@ -110,7 +110,7 @@ router.delete("/", async (req, res, next) => {
 });
 router.put(
   "/",
-  upload.array("images", 5),
+  upload.array("newImages", 5),
   updateProductValidation,
   async (req, res, next) => {
     try {
@@ -120,7 +120,7 @@ router.put(
       const files = req.files;
       //1. make new array for the images and replace in the database
       const images = files.map((img) => img.path); //new incoming images
-      const oldImgList = rest.images; //old images from db before editing
+      const oldImgList = rest.images.split(","); //old images from db before editing
 
       //remove deleteed image from old imglist
       const filteredImages = oldImgList.filter(
@@ -136,6 +136,7 @@ router.put(
         ? res.json({
             status: "success",
             message: "Product has been updated",
+            result,
           })
         : res.json({
             status: "error",
