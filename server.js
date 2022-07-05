@@ -11,7 +11,11 @@ const PORT = process.env.PORT || 8000;
 //use middle wares
 app.use(express.json()); //parse req.body
 app.use(cors()); //browser to access cors
-app.use(helmet()); //for the security purpose
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+); //for the security purpose
 app.use(morgan("dev")); //for logging the api calls
 import path from "path";
 

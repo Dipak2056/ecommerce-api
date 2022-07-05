@@ -38,6 +38,9 @@ export const newProductValidation = (req, res, next) => {
       salesStartDate: DATE.allow(null),
       salesEndDate: DATE.allow(null),
       catId: SHORTSTR.required(),
+      images: LONGSTR.allow(null, ""),
+      thumbnail: SHORTSTR.allow(null, ""),
+      imgToDelete: LONGSTR.allow(null, ""),
     });
     validator(schema, req, res, next);
   } catch (error) {
