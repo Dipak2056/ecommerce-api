@@ -1,5 +1,5 @@
 import express from "express";
-import { encryptPassword, verifyPassword } from "../../helpers/bcrypthelper.js";
+import { encryptPassword, verifyPassword } from "../helpers/bcrypthelper.js";
 import {
   emailVerificationValidation,
   loginValidation,
@@ -17,8 +17,8 @@ import {
   OTPNotification,
   profileUpdateNotification,
   sendMail,
-} from "../../helpers/emailHelper.js";
-import { createOtp } from "../../helpers/randomGeneratorHelper.js";
+} from "../helpers/emailHelper.js";
+import { createOtp } from "../helpers/randomGeneratorHelper.js";
 import {
   deleteSession,
   insertSession,
