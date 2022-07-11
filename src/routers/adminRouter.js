@@ -115,11 +115,12 @@ router.post("/login", loginValidation, async (req, res, next) => {
       if (isMatched) {
         user.password = undefined;
         const storeToken = await signAccessJwt({ email: user.email });
+        console.log(storeToken);
         res.json({
           status: "success",
           message: "User logged in successfully",
           user,
-          accessToken: storeToken.token,
+          accessJWT: storeToken.token,
         });
         return;
       }

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { insertSession } from "../models/session/sessionModel.js";
 
-export const signAccessJwt = async (payload) => {
+export const signAccessJwt = (payload) => {
   const accessJWT = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
     expiresIn: "15m",
   });
@@ -9,8 +9,7 @@ export const signAccessJwt = async (payload) => {
     token: accessJWT,
     type: "jwt",
   };
-  const result = await insertSession(obj);
-  return;
+  return insertSession(obj);
 };
 export const verifyAccessJwt = (token) => {
   return jwt.verify(token, process.env.JWT_ACCESS_SECRET);

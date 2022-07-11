@@ -46,8 +46,8 @@ POST http://localhost:8000/api/v1/admin/login
 Content-Type: application/json
 
 {
-  "email" : "paudelsantosh508@gmail.com",
-  "password":"Dipak1234"
+  "email" : "sam1@gmail.com",
+  "password":"aaAA11"
 }
 
 ### patch admin api
