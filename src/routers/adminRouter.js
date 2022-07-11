@@ -5,6 +5,7 @@ import {
   loginValidation,
   newAdminValidation,
   updateAdminValidation,
+  updatePasswordValidation,
 } from "../middlewares/joi-validation/adminValidation.js";
 import {
   getAdmin,
@@ -216,7 +217,7 @@ router.post("/otp-request", async (req, res, next) => {
 });
 
 //======================reset Password
-router.patch("/password", async (req, res, next) => {
+router.patch("/password", updatePasswordValidation, async (req, res, next) => {
   try {
     const { otp, email, password } = req.body;
     console.log(req.body);
@@ -247,6 +248,43 @@ router.patch("/password", async (req, res, next) => {
     });
 
     //2. based in the email update update password in the database after encrypting
+  } catch (error) {
+    error.status = 500;
+    next(error);
+  }
+});
+//===========update password
+router.patch("/update-password", async (req, res, next) => {
+  try {
+    const { currentPassword, email, password } = req.body;
+    console.log(req.body);
+    const user = await getAdmin({ email });
+    if (user?._id) {
+      const isMatched = verifyPassword(currentPassword, user.password);
+      if (isMatched) {
+        const hashPassword = encryptPassword(req.body.password);
+
+        const updatedUser = await updateAdmin(
+          { _id: user._id },
+          { password: hashPassword }
+        );
+        if (updatedUser?._id) {
+          profileUpdateNotification({
+            fName: updatedUser.fName,
+            email: updatedUser.email,
+          });
+          return res.json({
+            status: "success",
+            message: "successfully updated the password",
+          });
+        }
+      }
+    }
+
+    res.json({
+      status: "error",
+      message: "password didnot update successfully.",
+    });
   } catch (error) {
     error.status = 500;
     next(error);

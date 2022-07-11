@@ -30,6 +30,17 @@ Content-Type: application/json
   "emailValidationCode" : "1786d920-329b-4a99-8804-5d4d2436ba53"
 }
 
+
+###update password
+PATCH  http://localhost:8000/api/v1/admin/update-password
+Content-Type: application/json
+
+{
+  "email" : "paudelsantosh508@gmail.com",
+  "password":"aaAA11",
+  "confirmPassword":"bbBB11"
+}
+
 ### login admin api
 POST http://localhost:8000/api/v1/admin/login
 Content-Type: application/json
