@@ -28,17 +28,27 @@ import {
   signAccessJwt,
   verifyRefreshJwt,
 } from "../helpers/jwtHelper.js";
+import { adminAuth } from "../middlewares/authmiddlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json({
-    status: "success",
-    message: "GET method hit to admin router",
-  });
+router.get("/", adminAuth, (req, res) => {
+  try {
+    const user = req.adminInfo;
+    user.password = undefined;
+    user.refreshJWT = undefined;
+
+    res.json({
+      status: "success",
+      message: "GET method hit to admin router",
+      user,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 //new Admin registration
-router.post("/", newAdminValidation, async (req, res, next) => {
+router.post("/", adminAuth, newAdminValidation, async (req, res, next) => {
   try {
     const hashPassword = encryptPassword(req.body.password);
     req.body.password = hashPassword;
@@ -142,7 +152,7 @@ router.post("/login", loginValidation, async (req, res, next) => {
 });
 
 //put method for the update admin profile
-router.put("/", updateAdminValidation, async (req, res, next) => {
+router.put("/", adminAuth, updateAdminValidation, async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await getAdmin({ email });
@@ -178,7 +188,7 @@ router.put("/", updateAdminValidation, async (req, res, next) => {
     next(error);
   }
 });
-//=====================password reset otp request
+//=====================password update otp request
 router.post("/otp-request", async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -220,80 +230,89 @@ router.post("/otp-request", async (req, res, next) => {
 });
 
 //======================reset Password
-router.patch("/password", updatePasswordValidation, async (req, res, next) => {
-  try {
-    const { otp, email, password } = req.body;
-    console.log(req.body);
-    //1. get session info based in the otp, so that we get the use email
-    const session = await deleteSession({ otp, email });
-    console.log(session);
-    if (session?._id) {
-      const update = {
-        password: encryptPassword(password),
-      };
-      const updatedUser = await updateAdmin({ email }, update);
-      if (updatedUser?._id) {
-        //send the email notificaition
-        profileUpdateNotification({
-          fName: updatedUser.fName,
-          email: updatedUser.email,
-        });
-
-        return res.json({
-          status: "success",
-          message: "your password has been updated",
-        });
-      }
-    }
-    res.json({
-      status: "error",
-      message: "password didnot update successfully.",
-    });
-
-    //2. based in the email update update password in the database after encrypting
-  } catch (error) {
-    error.status = 500;
-    next(error);
-  }
-});
-//===========update password
-router.patch("/update-password", async (req, res, next) => {
-  try {
-    const { currentPass, email, password } = req.body;
-    console.log(req.body);
-    const user = await getAdmin({ email });
-    console.log(user);
-    if (user?._id) {
-      const isMatched = verifyPassword(currentPass, user.password);
-      if (isMatched) {
-        const hashPassword = encryptPassword(req.body.password);
-
-        const updatedUser = await updateAdmin(
-          { _id: user._id },
-          { password: hashPassword }
-        );
+router.patch(
+  "/password",
+  adminAuth,
+  updatePasswordValidation,
+  async (req, res, next) => {
+    try {
+      const { otp, email, password } = req.body;
+      console.log(req.body);
+      //1. get session info based in the otp, so that we get the use email
+      const session = await deleteSession({ otp, email });
+      console.log(session);
+      if (session?._id) {
+        const update = {
+          password: encryptPassword(password),
+        };
+        const updatedUser = await updateAdmin({ email }, update);
         if (updatedUser?._id) {
+          //send the email notificaition
           profileUpdateNotification({
             fName: updatedUser.fName,
             email: updatedUser.email,
           });
+
           return res.json({
             status: "success",
-            message: "successfully updated the password",
+            message: "your password has been updated",
           });
         }
       }
-    }
+      res.json({
+        status: "error",
+        message: "password didnot update successfully.",
+      });
 
-    res.json({
-      status: "error",
-      message: "password didnot update successfully.",
-    });
-  } catch (error) {
-    error.status = 500;
-    next(error);
+      //2. based in the email update update password in the database after encrypting
+    } catch (error) {
+      error.status = 500;
+      next(error);
+    }
   }
-});
+);
+//===========update password
+router.patch(
+  "/update-password",
+  updatePasswordValidation,
+  async (req, res, next) => {
+    try {
+      const { currentPass, email, password } = req.body;
+      console.log(req.body);
+      const user = await getAdmin({ email });
+      console.log(user);
+      if (user?._id) {
+        const isMatched = verifyPassword(currentPass, user.password);
+        if (isMatched) {
+          const hashPassword = encryptPassword(req.body.password);
+
+          const updatedUser = await updateAdmin(
+            { _id: user._id },
+            { password: hashPassword }
+          );
+          if (updatedUser?._id) {
+            profileUpdateNotification({
+              fName: updatedUser.fName,
+              email: updatedUser.email,
+            });
+            return res.json({
+              status: "success",
+              message: "successfully updated the password",
+            });
+          }
+        }
+      }
+
+      res.json({
+        status: "error",
+        message: "password didnot update successfully.",
+      });
+    } catch (error) {
+      error.status = 500;
+      next(error);
+    }
+  }
+);
 
 router.get("/accessjwt", async (req, res, next) => {
   try {

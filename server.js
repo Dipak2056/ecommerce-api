@@ -32,8 +32,8 @@ import paymentMethodRouter from "./src/routers/paymentMethodRouter.js";
 //middle wares
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/category", adminAuth, categoryRouter);
-app.use("/api/v1/products", productRouter);
-app.use("/api/v1/payment-method", paymentMethodRouter);
+app.use("/api/v1/products", adminAuth, productRouter);
+app.use("/api/v1/payment-method", adminAuth, paymentMethodRouter);
 //server static content
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "public")));
