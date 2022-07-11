@@ -19,6 +19,7 @@ export const signRefreshJwt = async (payload) => {
   });
 
   await updateAdmin({ email: payload.email }, { refreshJWT });
+
   return refreshJWT;
 };
 
@@ -36,4 +37,8 @@ export const verifyAccessJwt = (token) => {
     console.log(error.message);
     return error.message;
   }
+};
+
+export const verifyRefreshJwt = (token) => {
+  return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
 };

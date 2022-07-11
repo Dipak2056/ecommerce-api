@@ -23,7 +23,11 @@ import {
   deleteSession,
   insertSession,
 } from "../models/session/sessionModel.js";
-import { createJWTs } from "../helpers/jwtHelper.js";
+import {
+  createJWTs,
+  signAccessJwt,
+  verifyRefreshJwt,
+} from "../helpers/jwtHelper.js";
 
 const router = express.Router();
 
@@ -287,6 +291,33 @@ router.patch("/update-password", async (req, res, next) => {
     });
   } catch (error) {
     error.status = 500;
+    next(error);
+  }
+});
+
+router.get("/accessjwt", async (req, res, next) => {
+  try {
+    const refreshJWT = req.headers.authorization;
+
+    const decoded = verifyRefreshJwt(refreshJWT);
+    if (decoded?.email) {
+      //check refJWT valid and exist in db
+      const user = await getAdmin({ email: decoded.email, refreshJWT });
+      if (user?._id) {
+        //create new access jwt and retur in
+        const accessJWT = await signAccessJwt({ email: decoded.email });
+        res.json({
+          status: "success",
+          accessJWT,
+        });
+      }
+    }
+    res.status(401).json({
+      status: "error",
+      message: "log out user.",
+    });
+  } catch (error) {
+    console.log(error);
     next(error);
   }
 });
