@@ -23,7 +23,7 @@ import {
   deleteSession,
   insertSession,
 } from "../models/session/sessionModel.js";
-import { signAccessJwt } from "../helpers/jwtHelper.js";
+import { createJWTs } from "../helpers/jwtHelper.js";
 
 const router = express.Router();
 
@@ -114,13 +114,13 @@ router.post("/login", loginValidation, async (req, res, next) => {
       const isMatched = verifyPassword(password, user.password);
       if (isMatched) {
         user.password = undefined;
-        const storeToken = await signAccessJwt({ email: user.email });
-        console.log(storeToken);
+        user.refreshJWT = undefined;
+        const jwts = await createJWTs({ email: user.email });
         res.json({
           status: "success",
           message: "User logged in successfully",
           user,
-          accessJWT: storeToken.token,
+          ...jwts,
         });
         return;
       }
