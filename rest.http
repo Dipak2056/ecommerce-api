@@ -36,9 +36,9 @@ PATCH  http://localhost:8000/api/v1/admin/update-password
 Content-Type: application/json
 
 {
-  "email" : "paudelsantosh508@gmail.com",
+  "email" : "sam1@gmail.com",
   "password":"aaAA11",
-  "confirmPassword":"bbBB11"
+  "currentPassword":"bbBB11"
 }
 
 ### login admin api

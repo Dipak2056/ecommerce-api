@@ -256,11 +256,12 @@ router.patch("/password", updatePasswordValidation, async (req, res, next) => {
 //===========update password
 router.patch("/update-password", async (req, res, next) => {
   try {
-    const { currentPassword, email, password } = req.body;
+    const { currentPass, email, password } = req.body;
     console.log(req.body);
     const user = await getAdmin({ email });
+    console.log(user);
     if (user?._id) {
-      const isMatched = verifyPassword(currentPassword, user.password);
+      const isMatched = verifyPassword(currentPass, user.password);
       if (isMatched) {
         const hashPassword = encryptPassword(req.body.password);
 
