@@ -23,6 +23,7 @@ import {
   deleteSession,
   insertSession,
 } from "../models/session/sessionModel.js";
+import { signAccessJwt } from "../helpers/jwtHelper.js";
 
 const router = express.Router();
 
@@ -113,18 +114,15 @@ router.post("/login", loginValidation, async (req, res, next) => {
       const isMatched = verifyPassword(password, user.password);
       if (isMatched) {
         user.password = undefined;
+        const storeToken = await signAccessJwt({ email: user.email });
         res.json({
           status: "success",
           message: "User logged in successfully",
           user,
+          accessToken: storeToken.token,
         });
         return;
       }
-
-      //for now
-
-      //if match, process for creating jwt and etc for future
-      //for now send login success message with user data
     }
 
     res.status(401).json({
