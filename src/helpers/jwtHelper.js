@@ -4,7 +4,7 @@ import { insertSession } from "../models/session/sessionModel.js";
 
 export const signAccessJwt = async (payload) => {
   const accessJWT = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: "15m",
+    expiresIn: "1m",
   });
   const obj = {
     token: accessJWT,
@@ -15,7 +15,7 @@ export const signAccessJwt = async (payload) => {
 };
 export const signRefreshJwt = async (payload) => {
   const refreshJWT = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
-    expiresIn: "15m",
+    expiresIn: "1m",
   });
 
   await updateAdmin({ email: payload.email }, { refreshJWT });
@@ -30,5 +30,10 @@ export const createJWTs = async (payload) => {
 };
 
 export const verifyAccessJwt = (token) => {
-  return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+  try {
+    return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+  } catch (error) {
+    console.log(error.message);
+    return error.message;
+  }
 };

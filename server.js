@@ -5,6 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 import { dbConnect } from "./src/config/dbConfig.js";
+import { adminAuth } from "./src/middlewares/authmiddlewares/authMiddleware.js";
 
 const PORT = process.env.PORT || 8000;
 
@@ -30,7 +31,7 @@ import productRouter from "./src/routers/productRouter.js";
 import paymentMethodRouter from "./src/routers/paymentMethodRouter.js";
 //middle wares
 app.use("/api/v1/admin", adminRouter);
-app.use("/api/v1/category", categoryRouter);
+app.use("/api/v1/category", adminAuth, categoryRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/payment-method", paymentMethodRouter);
 //server static content

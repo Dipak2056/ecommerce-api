@@ -59,10 +59,13 @@ PATCH   http://localhost:8000/api/v1/admin/
 ### post new category
 POST http://localhost:8000/api/v1/category
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhbTFAZ21haWwuY29tIiwiaWF0IjoxNjU3NTE0NTUzLCJleHAiOjE2NTc1MTQ2MTN9.yUFVWM1QpgEE11PkpKMnFmv1F3Ecy-1rfkd1i2K3IXo
 
 {
 
-  "catName":"ap  pf"
+  "catName":"c",
+  "parentCatId":""
+  "status":"inactive"
 }
 ###Get all active categories
 GET http://localhost:8000/api/v1/category
