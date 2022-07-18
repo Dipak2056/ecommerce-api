@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 app.use((err, req, res, next) => {
   //log in file system or time series db like cloud watch
   console.log(err);
-  res.status(err.status || 400);
+  res.status(err.status || 404);
 
   res.json({
     status: "error",

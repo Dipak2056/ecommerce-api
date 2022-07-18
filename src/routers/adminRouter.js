@@ -56,7 +56,6 @@ router.post("/", adminAuth, newAdminValidation, async (req, res, next) => {
     req.body.emailValidationCode = uuidv4();
 
     const result = await insertAdmin(req.body);
-    console.log(result);
 
     if (result?._id) {
       //create unique url and send it to the use email
@@ -87,7 +86,6 @@ router.post(
   "/email-verification",
   emailVerificationValidation,
   async (req, res) => {
-    console.log(req.body);
     const filter = req.body;
     const update = { status: "active" };
     const result = await updateAdmin(filter, update);
@@ -112,7 +110,6 @@ router.post("/login", loginValidation, async (req, res, next) => {
   try {
     const { email, password } = req.body;
     //check for the authentication.
-    console.log(req.body);
     //query get user by email
     const user = await getAdmin({ email });
 
@@ -123,7 +120,6 @@ router.post("/login", loginValidation, async (req, res, next) => {
           "your account is not active yet, please check your email and follow the instruction to activate your account.",
       });
     if (user?._id) {
-      console.log(user);
       //if user exist compare password
       const isMatched = verifyPassword(password, user.password);
       if (isMatched) {
@@ -145,7 +141,6 @@ router.post("/login", loginValidation, async (req, res, next) => {
       message: "Invalid login credentials",
     });
   } catch (error) {
-    console.log(error);
     error.status = 500;
     next(error);
   }
@@ -204,7 +199,6 @@ router.post("/otp-request", async (req, res, next) => {
         };
         const result = await insertSession(obj);
         if (result?._id) {
-          console.log(result);
           res.json({
             status: "success",
             message:
@@ -216,7 +210,6 @@ router.post("/otp-request", async (req, res, next) => {
             email,
           });
         }
-        console.log(result);
       }
     }
     res.json({
@@ -237,10 +230,8 @@ router.patch(
   async (req, res, next) => {
     try {
       const { otp, email, password } = req.body;
-      console.log(req.body);
       //1. get session info based in the otp, so that we get the use email
       const session = await deleteSession({ otp, email });
-      console.log(session);
       if (session?._id) {
         const update = {
           password: encryptPassword(password),
@@ -278,9 +269,7 @@ router.patch(
   async (req, res, next) => {
     try {
       const { currentPass, email, password } = req.body;
-      console.log(req.body);
       const user = await getAdmin({ email });
-      console.log(user);
       if (user?._id) {
         const isMatched = verifyPassword(currentPass, user.password);
         if (isMatched) {
@@ -336,7 +325,7 @@ router.get("/accessjwt", async (req, res, next) => {
       message: "log out user.",
     });
   } catch (error) {
-    console.log(error);
+    error.status = 401;
     next(error);
   }
 });

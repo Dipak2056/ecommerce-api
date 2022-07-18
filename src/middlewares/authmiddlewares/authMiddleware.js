@@ -11,7 +11,7 @@ export const adminAuth = async (req, res, next) => {
       if (decoded === "jwt expired") {
         return res.status(403).json({
           status: "error",
-          message: "jwt expired",
+          message: "jwt expired!",
         });
       }
 
