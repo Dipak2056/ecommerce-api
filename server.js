@@ -30,12 +30,16 @@ import categoryRouter from "./src/routers/categoryRouter.js";
 import productRouter from "./src/routers/productRouter.js";
 import paymentMethodRouter from "./src/routers/paymentMethodRouter.js";
 import customerRouter from "./src/routers/customerRouter.js";
+import reviewRouter from "./src/routers/reviewRouter.js";
+import orderRouter from "./src/routers/orderRouter.js";
 //middle wares
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/category", adminAuth, categoryRouter);
 app.use("/api/v1/products", adminAuth, productRouter);
 app.use("/api/v1/payment-method", adminAuth, paymentMethodRouter);
 app.use("/api/v1/customers", adminAuth, customerRouter);
+app.use("/api/v1/reviews", adminAuth, reviewRouter);
+app.use("/api/v1/orders", adminAuth, orderRouter);
 //server static content
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "public")));
