@@ -35,7 +35,7 @@ app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/category", adminAuth, categoryRouter);
 app.use("/api/v1/products", adminAuth, productRouter);
 app.use("/api/v1/payment-method", adminAuth, paymentMethodRouter);
-app.use("/api/v1/customers", customerRouter);
+app.use("/api/v1/customers", adminAuth, customerRouter);
 //server static content
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "public")));
